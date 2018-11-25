@@ -24,7 +24,7 @@ except (IndexError, ValueError):
 with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as my_socket:
     my_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     my_socket.connect((IP, PORT))
-    
+
     linea = (PETICION + " sip:" + RECEPTOR + "@" + IP + " SIP/2.0\r\n")
 
     print("Enviando: " + linea)
@@ -33,13 +33,13 @@ with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as my_socket:
 
     print('Recibido -- ', data.decode('utf-8'))
     respuesta_server = data.decode('utf-8')
-    if respuesta_server == ("SIP/2.0 100 Trying\r\n\r\n" + 
+    if respuesta_server == ("SIP/2.0 100 Trying\r\n\r\n" +
                             "SIP/2.0 180 Ringing\r\n\r\n" +
                             "SIP/2.0 200 OK\r\n\r\n"):
         linea = ("ACK sip:" + RECEPTOR + "@" + IP + " SIP/2.0\r\n")
         print("Enviando: " + linea)
         my_socket.send(bytes(linea, 'utf-8') + b'\r\n')
-        
+
     print("Terminando socket...")
 
 print("Fin.")
